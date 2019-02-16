@@ -19,15 +19,19 @@ class Particle:
         
     def draw_self(self):
 
-        d = self.siz / max_size * 10 + 3
-        sphereDetail(int(d))
-        pushMatrix()
-        translate(self.position.x, self.position.y, self.position.z)
-        rotateX(self.siz / max_size * TWO_PI)
-        fill(128,90,200)
-        noStroke()
-        sphere(self.siz)
-        popMatrix()
+        if False:
+            d = self.siz / max_size * 10 + 3
+            sphereDetail(int(d))
+            pushMatrix()
+            translate(self.position.x, self.position.y, self.position.z)
+            rotateX(self.siz / max_size * TWO_PI)
+            fill(128,90,200)
+            noStroke()
+            sphere(self.siz)
+            popMatrix()
+        else:
+            stroke(255)
+            curveVertex(self.position.x, self.position.y, self.position.z)
 
 class ParticleGroup:
     def __init__(self, n):
@@ -44,20 +48,22 @@ class ParticleGroup:
         for p in self.particles:
             print(p.position)
     def draw_particles(self):
+        beginShape()
         for p in self.particles:
             p.draw_self()
+        endShape()
 
     
 
 def setup():
     global pg, max_x, max_y
     size(800,800, P3D)
-    pg = ParticleGroup(1000)
+    pg = ParticleGroup(10)
 
 def draw():
     global pg, ang
     
-    lights()
+    # lights()
     background(0)
     
     pushMatrix()
