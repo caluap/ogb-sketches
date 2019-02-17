@@ -2,6 +2,7 @@ max_x, max_y, max_z = 800, 800, 500
 pgs = []
 ang = 0.0
 max_size = 100
+polys = []
 
 
 class Particle:
@@ -53,30 +54,36 @@ class ParticleGroup:
             p.draw_self()
         endShape()
         
-def draw_polygons():
-    polys = [[
-          ( width*.80, height*.10, 0),
-          ( width*.85, height*.23, 0),
-          ( width*.78, height*.17, 0),
-          ( width*.56, height*.45, 0),
-          ( width*.14, height*.56, 0),
-          ( width*.78, height*.23, 0)]]
-    polys.append([( width*.56, height*.77, 0),
-          ( width*.76, height*.55, 0),
-          ( width*.33, height*.66, 0),
-          ( width*.78, height*.99, 0),
-          ( width*.99, height*.88, 0),
-          ( width*.78, height*.55, 0)])
+def generate_polygons(n):
+    polys = []
+    for _ in range(n):
+        poly = []
+        for i in range(int(random(6))+3):
+            if i == 0:
+                x = random(width)
+                y = random(height)
+                poly.append(PVector(x,y,0))
+            else:
+                x = poly[i-1].x
+                y = poly[i-1].y
+                d = 0.5
+                x += random(width/d) * [-1,1][int(random(2))]
+                y += random(height/d) * [-1,1][int(random(2))]
+                poly.append(PVector(x,y,0))
+        polys.append(poly)
+    return polys
+        
+def draw_polygons(polys):
     
     fill('#FF8E43')
     noStroke()
     pushMatrix()
     scl = 1.3
-    scale(scl,scl,0)
+    scale(scl,scl,scl)
     for poly in polys:
         beginShape()
         for p in poly:
-            vertex(p[0], p[1], p[2])
+            vertex(p.x, p.y, p.z)
         endShape()
     popMatrix()
     
@@ -88,16 +95,17 @@ def rotate_view(ang):
     translate(-width/2, -height/2)
 
 def setup():
-    global pgs, max_x, max_y
+    global pgs, max_x, max_y, polys
     size(297,410, P3D)
     max_x = width
     max_y = height
     
     for _ in range(10):
         pgs.append(ParticleGroup(5))
+    polys = generate_polygons(3)
 
 def draw():
-    global pgs, ang
+    global pgs, ang, polys
     
     lights()
     background('#FFDEDE')
@@ -110,7 +118,7 @@ def draw():
     
     rotate_view(ang)
     
-    draw_polygons()
+    draw_polygons(polys)
     
     for pg in pgs:
         pg.draw_particles()
