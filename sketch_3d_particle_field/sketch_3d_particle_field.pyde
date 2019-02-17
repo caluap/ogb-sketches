@@ -35,7 +35,7 @@ class ParticleGroup:
     def __init__(self, n):
         self.particles = []
         for i in range(n):
-            pos = PVector(random(max_x), random(max_y), random(max_z))
+            pos = PVector(random(max_x), random(max_y), random(max_z) - max_z/2)
             vel = PVector(0,0,0)
             acc = PVector(0,0,0)
             self.particles.append(Particle(pos, vel, acc))
@@ -48,13 +48,38 @@ class ParticleGroup:
         beginShape()
         strokeWeight(2)
         noFill()
-        inc = 255.0 / len(self.particles)
-        c = 0
         for p in self.particles:
-            stroke(c)
+            stroke('#72FA97')
             p.draw_self()
-            c = int(c + inc)
         endShape()
+        
+def draw_polygons():
+    polys = [[
+          ( width*.80, height*.10, 0),
+          ( width*.85, height*.23, 0),
+          ( width*.78, height*.17, 0),
+          ( width*.56, height*.45, 0),
+          ( width*.14, height*.56, 0),
+          ( width*.78, height*.23, 0)]]
+    polys.append([( width*.56, height*.77, 0),
+          ( width*.76, height*.55, 0),
+          ( width*.33, height*.66, 0),
+          ( width*.78, height*.99, 0),
+          ( width*.99, height*.88, 0),
+          ( width*.78, height*.55, 0)])
+    
+    fill('#FF8E43')
+    noStroke()
+    pushMatrix()
+    scl = 1.3
+    scale(scl,scl,0)
+    for poly in polys:
+        beginShape()
+        for p in poly:
+            vertex(p[0], p[1], p[2])
+        endShape()
+    popMatrix()
+    
 
 def rotate_view(ang):
     translate(width/2, height/2)
@@ -75,6 +100,7 @@ def draw():
     global pgs, ang
     
     lights()
+    background('#FFDEDE')
     background(0)
         
     pushMatrix()
@@ -83,9 +109,12 @@ def draw():
     translate(0,0,-400)
     
     rotate_view(ang)
+    
+    draw_polygons()
+    
     for pg in pgs:
         pg.draw_particles()
     
     popMatrix()
     
-    ang += 0.01
+    ang += 0.005
