@@ -1,15 +1,14 @@
 max_x, max_y, max_z = 800, 800, 500
-pg = None
+pgs = []
 ang = 0.0
 max_size = 100
 
 
 class Particle:
-    def __init__(self, position, velocity, acceleration, siz):
+    def __init__(self, position, velocity, acceleration):
         self.position = position
         self.velocity = velocity
         self.acceleration = acceleration
-        self.siz = siz
     
     def update(self):
         pass
@@ -38,9 +37,8 @@ class ParticleGroup:
         for i in range(n):
             pos = PVector(random(max_x), random(max_y), random(max_z))
             vel = PVector(0,0,0)
-            acc = PVector(0,0,0)            
-            s = pos.x * pos.y / (max_x * max_y) * max_size
-            self.particles.append(Particle(pos, vel, acc, s))
+            acc = PVector(0,0,0)
+            self.particles.append(Particle(pos, vel, acc))
     def update(self):
         pass
     def print_self(self):
@@ -48,7 +46,7 @@ class ParticleGroup:
             print(p.position)
     def draw_particles(self):
         beginShape()
-        strokeWeight(5)
+        strokeWeight(2)
         noFill()
         inc = 255.0 / len(self.particles)
         c = 0
@@ -65,21 +63,28 @@ def rotate_view(ang):
     translate(-width/2, -height/2)
 
 def setup():
-    global pg, max_x, max_y
-    size(800,800, P3D)
+    global pgs, max_x, max_y
+    size(297,410, P3D)
     max_x = width
     max_y = height
-    pg = ParticleGroup(20)
+    
+    for _ in range(10):
+        pgs.append(ParticleGroup(5))
 
 def draw():
-    global pg, ang
+    global pgs, ang
     
     lights()
     background(0)
         
     pushMatrix()
+    
+    # zoom out?
+    translate(0,0,-400)
+    
     rotate_view(ang)
-    pg.draw_particles()
+    for pg in pgs:
+        pg.draw_particles()
     
     popMatrix()
     
