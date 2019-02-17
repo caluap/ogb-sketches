@@ -110,6 +110,7 @@ def rotate_view(ang):
 def setup():
     global pgs, max_x, max_y, polys
     add_library('pdf')
+    hint(ENABLE_DEPTH_SORT)
     size(297, 410, P3D)
     max_x = width
     max_y = height
