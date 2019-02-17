@@ -1,7 +1,7 @@
 SILVER = 2.414
 GOLDEN = 1.6180339887498948482
 save_pdf = False
-noiseScale = 0.03
+noiseScale = 0.015
 
 def setup():
     add_library('pdf')
@@ -14,7 +14,7 @@ def draw():
     if save_pdf:
         beginRecord(PDF, 'output/#######.pdf')
                 
-    background(0)
+    background('#621727')
     
     for i in range(13000):
         ang = i * TAU / GOLDEN
@@ -36,18 +36,20 @@ def draw():
             tints_c = ['#F44336','#E53935','#D32F2F','#C62828','#B71C1C'] #red
             tints_d = ['#B9F6CA','#69F0AE','#00E676','#00C853'] #green
             
-            min_1 = 155
+            min_1 = 135
             max_1 = 255
             min_2 = 0
             max_2 = 100
             
             if min_1 < c < max_1:
                 p = 1
-                f = tints_c[int((c-min_1)/(max_1-min_1) * len(tints_c))]
+                f = '#000091'
+                # f = tints_c[int((c-min_1)/(max_1-min_1) * len(tints_c))]
             else:
                 if min_2 < c < max_2:
                     p = 2
-                    f = tints_c[int((c-min_2)/(max_2-min_2) * len(tints_c))]
+                    f = '#ff0000'
+                    # f = tints_c[int((c-min_2)/(max_2-min_2) * len(tints_c))]
                 else:
                     p = 0
             if p == 0:
