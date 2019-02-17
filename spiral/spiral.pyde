@@ -2,7 +2,7 @@ SILVER = 2.414
 GOLDEN = 1.618
 
 def setup():
-    size(594, 480)
+    size(594, 820)
     noStroke()
 
 def draw():
@@ -11,7 +11,7 @@ def draw():
     
     noiseScale = 0.03
     
-    for i in range(9000):
+    for i in range(13000):
         ang = i * TAU / GOLDEN
         d = 0.04 * i
         x = cos(ang) * d + width / 2        
@@ -29,13 +29,15 @@ def draw():
                 p = 2
             else:
                 p = 0
-        if p == 0:
+        if p == -1:
             pass
         else:
             noStroke()
             if p == 1:
                 fill('#3DE0D0')
-            else:
+            elif p == 2:
                 fill('#F57C7C')
+            else:
+                fill(30)
             s = d/80.0
             ellipse(x, y, s, s)
