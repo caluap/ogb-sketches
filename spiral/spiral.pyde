@@ -44,7 +44,7 @@ def draw():
                 fill('#F57C7C')
             else:
                 fill(30)
-            s = i / 1900.0
+            s = i / 1400.0 + 0.6
             ellipse(x, y, s, s)
 
     if save_pdf:
