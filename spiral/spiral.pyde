@@ -1,5 +1,5 @@
 SILVER = 2.414
-GOLDEN = 1.618
+GOLDEN = 1.6180339887498948482
 save_pdf = False
 noiseScale = 0.03
 
@@ -18,7 +18,7 @@ def draw():
     
     for i in range(13000):
         ang = i * TAU / GOLDEN
-        d = 0.04 * i
+        d = 0.042 * i
         x = cos(ang) * d + width / 2        
         y = sin(ang) * d + height / 2
 
@@ -44,7 +44,7 @@ def draw():
                 fill('#F57C7C')
             else:
                 fill(30)
-            s = d/80.0
+            s = i / 1900.0
             ellipse(x, y, s, s)
 
     if save_pdf:
