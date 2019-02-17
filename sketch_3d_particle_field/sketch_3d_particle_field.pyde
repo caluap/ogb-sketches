@@ -58,7 +58,11 @@ class ParticleGroup:
             c = int(c + inc)
         endShape()
 
-    
+def rotate_view(ang):
+    translate(width/2, height/2)
+    rotateX(ang)
+    rotateY(-ang)
+    translate(-width/2, -height/2)
 
 def setup():
     global pg, max_x, max_y
@@ -70,15 +74,11 @@ def setup():
 def draw():
     global pg, ang
     
-    # lights()
+    lights()
     background(0)
-    
+        
     pushMatrix()
-    translate(width/2, height/2)
-    rotateX(ang)
-    rotateY(-ang)
-    translate(-width/2, -height/2)
-    
+    rotate_view(ang)
     pg.draw_particles()
     
     popMatrix()
