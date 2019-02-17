@@ -9,8 +9,10 @@ def draw():
         pushMatrix()
         translate(width/2, height/2)
         ang = i * TAU / 1.618
-        rotate(ang)
-        translate(0, i * 0.2)
-        fill(255)
-        ellipse(0, 0, 3, 3)
+        d = 0.2 * i
+        y = sin(ang) * d
+        x = cos(ang) * d
+        stroke(255)
+        noFill()
+        point(x, y)
         popMatrix()
