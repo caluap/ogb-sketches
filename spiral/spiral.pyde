@@ -1,15 +1,20 @@
 SILVER = 2.414
 GOLDEN = 1.618
+save_pdf = False
+noiseScale = 0.03
 
 def setup():
+    add_library('pdf')
     size(594, 820)
     noStroke()
 
 def draw():
-    
+    global save_pdf
+
+    if save_pdf:
+        beginRecord(PDF, 'output/#######.pdf')
+                
     background(0)
-    
-    noiseScale = 0.03
     
     for i in range(13000):
         ang = i * TAU / GOLDEN
@@ -41,3 +46,13 @@ def draw():
                 fill(30)
             s = d/80.0
             ellipse(x, y, s, s)
+
+    if save_pdf:
+        endRecord()
+        exit()
+
+def keyPressed():
+    global save_pdf
+    if key == ENTER:
+        save_pdf = True
+    d = True
