@@ -54,11 +54,11 @@ class ParticleGroup:
             p.draw_self()
         endShape()
         
-def generate_polygons(n):
+def generate_polygons(n, r):
     polys = []
     for _ in range(n):
         poly = []
-        for i in range(int(random(6))+3):
+        for i in range(int(random(r))+3):
             if i == 0:
                 x = random(width)
                 y = random(height)
@@ -101,8 +101,8 @@ def setup():
     max_y = height
     
     for _ in range(10):
-        pgs.append(ParticleGroup(5))
-    polys = generate_polygons(3)
+        pgs.append(ParticleGroup(6))
+    polys = generate_polygons(5, 0)
 
 def draw():
     global pgs, ang, polys
@@ -114,7 +114,7 @@ def draw():
     pushMatrix()
     
     # zoom out?
-    translate(0,0,-400)
+    translate(0,0,-100)
     
     rotate_view(ang)
     
