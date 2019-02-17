@@ -18,7 +18,9 @@ def draw():
     
     for i in range(13000):
         ang = i * TAU / GOLDEN
-        d = 0.042 * i
+        blank_radius = 2
+        
+        d = blank_radius + 0.08 * i
         x = cos(ang) * d + width / 2        
         y = sin(ang) * d + height / 2
 
@@ -34,7 +36,7 @@ def draw():
                 p = 2
             else:
                 p = 0
-        if p == -1:
+        if p == 0:
             pass
         else:
             noStroke()
@@ -44,7 +46,8 @@ def draw():
                 fill('#F57C7C')
             else:
                 fill(30)
-            s = i / 1400.0 + 0.6
+                
+            s = i / 500.0 + 1.0
             ellipse(x, y, s, s)
 
     if save_pdf:
