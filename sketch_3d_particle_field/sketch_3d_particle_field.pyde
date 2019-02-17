@@ -38,7 +38,13 @@ class ParticleGroup:
     def __init__(self, n):
         self.particles = []
         for i in range(n):
-            pos = PVector(random(max_x), random(max_y), random(max_z) - max_z/2)
+            if i == 0:
+                pos = PVector(random(max_x), random(max_y), random(max_z) - max_z/2)
+            else:
+                x = noise(self.particles[i-1].position.x) * max_x
+                y = noise(self.particles[i-1].position.y) * max_y
+                z = noise(self.particles[i-1].position.z) * max_z - max_z/2
+                pos = PVector(x,y,z)
             vel = PVector(0,0,0)
             acc = PVector(0,0,0)
             self.particles.append(Particle(pos, vel, acc))
@@ -69,8 +75,8 @@ def generate_polygons(n, r):
                 x = poly[i-1].x
                 y = poly[i-1].y
                 d = 0.5
-                x += random(width/d) * [-1,1][int(random(2))]
-                y += random(height/d) * [-1,1][int(random(2))]
+                x += noise(x,y) * random(width/d) * [-1,1][int(random(2))]
+                y += noise(x,y) * random(height/d) * [-1,1][int(random(2))]
                 poly.append(PVector(x,y,0))
         polys.append(poly)
     return polys
@@ -103,8 +109,8 @@ def setup():
     max_x = width
     max_y = height
     
-    for _ in range(10):
-        pgs.append(ParticleGroup(6))
+    for _ in range(7):
+        pgs.append(ParticleGroup(5))
     polys = generate_polygons(5, 0)
 
 def draw():
@@ -112,7 +118,7 @@ def draw():
     
     
     if save_pdf:
-        beginRaw(PDF, '#######.pdf')
+        beginRaw(PDF, 'output/#######.pdf')
     
     
     lights()
