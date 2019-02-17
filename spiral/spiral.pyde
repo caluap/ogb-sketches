@@ -1,18 +1,24 @@
+SILVER = 2.414
+GOLDEN = 1.618
+
 def setup():
-    size(540, 540)
+    size(800, 800)
+    noStroke()
 
 def draw():
     
     background(0)
     
-    for i in range(2000):
+    for i in range(6000):
         pushMatrix()
         translate(width/2, height/2)
-        ang = i * TAU / 1.618
-        d = 0.2 * i
+        ang = i * TAU / GOLDEN
+        d = 0.1 * i
         y = sin(ang) * d
         x = cos(ang) * d
-        stroke(255)
-        noFill()
-        point(x, y)
+        
+        perlin = noise(x, y, frameCount / 100)
+        fill(255)
+        s = d/60.0
+        ellipse(x, y, s, s)
         popMatrix()
