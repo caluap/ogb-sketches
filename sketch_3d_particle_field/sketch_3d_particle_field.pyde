@@ -1,4 +1,4 @@
-max_x, max_y, max_z = 1200, 1200, 4000
+max_x, max_y, max_z = 800, 800, 500
 pg = None
 ang = 0.0
 max_size = 100
@@ -30,7 +30,6 @@ class Particle:
             sphere(self.siz)
             popMatrix()
         else:
-            stroke(255)
             curveVertex(self.position.x, self.position.y, self.position.z)
 
 class ParticleGroup:
@@ -49,8 +48,14 @@ class ParticleGroup:
             print(p.position)
     def draw_particles(self):
         beginShape()
+        strokeWeight(5)
+        noFill()
+        inc = 255.0 / len(self.particles)
+        c = 0
         for p in self.particles:
+            stroke(c)
             p.draw_self()
+            c = int(c + inc)
         endShape()
 
     
@@ -58,7 +63,9 @@ class ParticleGroup:
 def setup():
     global pg, max_x, max_y
     size(800,800, P3D)
-    pg = ParticleGroup(10)
+    max_x = width
+    max_y = height
+    pg = ParticleGroup(20)
 
 def draw():
     global pg, ang
