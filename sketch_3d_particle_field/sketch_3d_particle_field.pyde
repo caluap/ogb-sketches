@@ -4,6 +4,8 @@ ang = 0.0
 max_size = 100
 polys = []
 
+save_pdf = False
+
 
 class Particle:
     def __init__(self, position, velocity, acceleration):
@@ -96,6 +98,7 @@ def rotate_view(ang):
 
 def setup():
     global pgs, max_x, max_y, polys
+    add_library('pdf')
     size(297,410, P3D)
     max_x = width
     max_y = height
@@ -105,10 +108,14 @@ def setup():
     polys = generate_polygons(5, 0)
 
 def draw():
-    global pgs, ang, polys
+    global pgs, ang, polys, save_pdf
+    
+    
+    if save_pdf:
+        beginRaw(PDF, '#######.pdf')
+    
     
     lights()
-    background('#FFDEDE')
     background(0)
         
     pushMatrix()
@@ -126,3 +133,13 @@ def draw():
     popMatrix()
     
     ang += 0.005
+
+    if save_pdf:
+        endRaw()
+        exit()
+    
+def keyPressed():
+    global save_pdf
+    if key == ENTER:
+        save_pdf = True
+    d = True
