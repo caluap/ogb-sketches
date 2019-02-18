@@ -14,7 +14,8 @@ def draw():
     if save_pdf:
         beginRecord(PDF, 'output/#######.pdf')
                 
-    background('#621727')
+    # background('#621727')
+    background(0)
     
     for i in range(13000):
         ang = i * TAU / GOLDEN
