@@ -1,7 +1,14 @@
 SILVER = 2.414
 GOLDEN = 1.6180339887498948482
-save_pdf = False
+savePDF = False
 noiseScale = 0.015
+
+min_1 = 135
+max_1 = 255
+min_2 = 0
+max_2 = 100
+
+perlinDots = True
 
 def setup():
     add_library('pdf')
@@ -9,9 +16,9 @@ def setup():
     noStroke()
 
 def draw():
-    global save_pdf
+    global savePDF
 
-    if save_pdf:
+    if savePDF:
         beginRecord(PDF, 'output/#######.pdf')
                 
     # background('#621727')
@@ -37,10 +44,7 @@ def draw():
             tints_c = ['#F44336','#E53935','#D32F2F','#C62828','#B71C1C'] #red
             tints_d = ['#B9F6CA','#69F0AE','#00E676','#00C853'] #green
             
-            min_1 = 135
-            max_1 = 255
-            min_2 = 0
-            max_2 = 100
+
             
             if min_1 < c < max_1:
                 p = 1
@@ -66,13 +70,22 @@ def draw():
                     
                 s = i / 500.0 + 1.0
                 ellipse(x, y, s, s)
+    
+    if perlinDots:
+        for x in range(width):
+            for y in range(height):
+                c = 255 * noise(x * noiseScale, y * noiseScale, frameCount * noiseScale)
+                if c >= max_2 and c <= min_1:
+                    f = '#211006'
+                    stroke(f)
+                    point(x,y)
 
-    if save_pdf:
+    if savePDF:
         endRecord()
         exit()
 
 def keyPressed():
-    global save_pdf
+    global savePDF
     if key == ENTER:
-        save_pdf = True
+        savePDF = True
     d = True
