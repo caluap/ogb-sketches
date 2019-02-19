@@ -24,8 +24,11 @@ def draw():
         if x > -margin and x < width+margin and y > -margin and y < height+margin:
        
             noiz = noise(x*noiseScale, y*noiseScale, frameCount/20.0)
+            angle = noiz * TWO_PI          
+            noiz = min(1.0, (noiz-0.1) / 0.8) # flatten somewhat the color curve here
+            
             stroke(noiz*255,noiz*255,noiz*255)
-            angle = noiz * TWO_PI
+
             
             adjDash = dashSize * (0.1 + 1.0*i/n)
             
