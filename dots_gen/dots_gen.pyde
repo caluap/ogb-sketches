@@ -5,11 +5,20 @@ blankRadius = 0
 dashSize = 10.0  
 margin = 20
 
+savePDF = False
+
 def setup():
+    add_library('pdf')
     size(297*2, 410*2)
     
     
 def draw(): 
+    global savePDF
+    
+    if savePDF:
+        fileName = 'output/' + str(year()) + '-' + str(month()) + '-' + str(day()) + '-' + str(hour()) + '-' + str(minute()) + '-' + str(second()) + '.pdf'
+        beginRecord(PDF, fileName)
+        
     n = 24000   
     background(0)
     for i in range(n):
@@ -36,3 +45,13 @@ def draw():
             distY = sin(angle) * adjDash
             
             line(x,y, x+distX,y+distY)
+            
+    if savePDF:
+        endRecord()
+        savePDF = False
+            
+def keyPressed():
+    global savePDF
+    if key == ENTER:
+        savePDF = True
+    d = True
