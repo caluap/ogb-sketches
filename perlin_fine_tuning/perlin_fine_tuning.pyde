@@ -26,6 +26,12 @@ def draw():
             
     loadPixels()
     
+def mouseWheel(event):
+    global noiseFactor
+    e = event.getCount()
+    noiseFactor += -e * 0.005
+    print(noiseFactor)
+    
 def mouseClicked():
     global nd, oct
     print(nd)
