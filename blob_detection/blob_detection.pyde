@@ -1,25 +1,26 @@
 add_library('blobDetection')
+add_library('pdf')
 
 noiseFactor = 0.011
 noiseDetail(17,0.397)
-blobDetector = None
+blobDetectors = []
 
-blob_factor = 0.8
 perlin_threshold = 0.5
+
+levels = 5
 
 
 def setup():
-    global blobDetector, blob_factor
-    size(210*2, 297*2)
-    blobDetector = BlobDetection(width,height)
-    blobDetector.setPosDiscrimination(True)
-    blobDetector.setThreshold(blob_factor)
+    size(210, 297)
+    # blobDetector = BlobDetection(width,height)
+    # blobDetector.setPosDiscrimination(True)
+    # blobDetector.setThreshold(blob_factor)
     
     noiseDetail(18, 0.63)
     noSmooth()
     
 def draw():
-    global blobDetector, blob_factor
+    global blobDetectors, levels
     
     background(0)
     
@@ -33,28 +34,44 @@ def draw():
             # stroke(255 * perlin)            
             point(x,y)
 
-    filter(BLUR, 6)
+    filter(BLUR, 8)
     
     loadPixels()
-    blobDetector.computeBlobs(pixels)
-    
     background(0)
-    noFill()
-    stroke(255,0,0)         
-    for i in range(blobDetector.getBlobNb()):
-        blob = blobDetector.getBlob(i)
+    
+    for _ in range(levels):
+        blobDetector = BlobDetection(width,height)
+        blobDetector.setThreshold(1.0*_/levels)
+        blobDetector.computeBlobs(pixels)
+        blobDetectors.append(blobDetector)
 
-        beginShape()
-        init = -1
-        for i_vert in range(blob.getEdgeNb()):
-            vertA = blob.getEdgeVertexA(i_vert)
-            vertB = blob.getEdgeVertexB(i_vert)
-            xA = vertA.x * width
-            yA = vertA.y * height
-            xB = vertB.x * width
-            yB = vertB.y * height
-            line(xA,yA, xB,yB)
+    noFill()    
+    col = 0
+    
+    fileName = 'output/' + str(year()) + '-' + str(month()) + '-' + str(day()) + '-' + str(hour()) + '-' + str(minute()) + '-' + str(second()) + '.pdf'
+    
+    beginRecord(PDF, fileName)
+    
+    for blobDetector in blobDetectors:    
+        stroke(col * 255 / levels)
+        col += 1
+        for i in range(blobDetector.getBlobNb()):
+            blob = blobDetector.getBlob(i)
+    
+            beginShape()
+            init = -1
+            for i_vert in range(blob.getEdgeNb()):
+                vertA = blob.getEdgeVertexA(i_vert)
+                vertB = blob.getEdgeVertexB(i_vert)
+                xA = vertA.x * width
+                yA = vertA.y * height
+                xB = vertB.x * width
+                yB = vertB.y * height
+                
+                line(xA,yA, xB,yB)
+                
+            endShape()
             
-        endShape()
-            
+    endRecord()        
+    noLoop()
     
