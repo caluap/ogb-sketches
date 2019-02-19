@@ -1,6 +1,6 @@
 noiseFactor = 0.01
-hiTreshold = .60*255
-loTreshold = .40*255
+hiTreshold = .58*255
+loTreshold = .45*255
 
 saveImg = False
 
@@ -16,8 +16,8 @@ def setup():
     hiImg = loadImage("dots.png")
     loImg = loadImage("lines.png")
     
-    # pg = createGraphics(2475, 3417) # 300dpi
-    pg = createGraphics(1754, 2480) #150dpi
+    pg = createGraphics(2475, 3417) # 300dpi
+    # pg = createGraphics(1754, 2480) #150dpi
     
 def draw(): 
     global hiImg, loImg, saveImg, pg
@@ -93,4 +93,6 @@ def keyPressed():
     global saveImg
     if key == ENTER:
         saveImg = True
+    if key == TAB:
+        noiseSeed(int(random(32767)))
             
