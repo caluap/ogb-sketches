@@ -54,6 +54,7 @@ def draw():
     
     for blobDetector in blobDetectors:    
         stroke(col * 255 / levels)
+        noFill()
         col += 1
         for i in range(blobDetector.getBlobNb()):
             blob = blobDetector.getBlob(i)
@@ -68,7 +69,10 @@ def draw():
                 xB = vertB.x * width
                 yB = vertB.y * height
                 
-                line(xA,yA, xB,yB)
+                # print(str(xA) + ',' + str(yA) + ' - ' + str(xB) + ',' + str(yB))
+                vertex(xA,yA)
+                vertex(xB,yB)
+                # line(xA,yA, xB,yB)
                 
             endShape()
             
