@@ -1,21 +1,22 @@
 add_library('blobDetection')
 
-noiseFactor = 0.006
-noiseDetail(2,0.75)
+noiseFactor = 0.011
+noiseDetail(17,0.397)
 blobDetector = None
 
-# blob_factor = 0.8
-perlin_threshold = 0.4
+blob_factor = 0.8
+perlin_threshold = 0.5
 
 
 def setup():
     global blobDetector, blob_factor
-    size(210, 297)
+    size(210*2, 297*2)
     blobDetector = BlobDetection(width,height)
+    blobDetector.setPosDiscrimination(True)
+    blobDetector.setThreshold(blob_factor)
     
-    # blobDetector.setPosDiscrimination(True)
-    # blobDetector.setThreshold(blob_factor)
-    
+    noiseDetail(18, 0.63)
+    noSmooth()
     
 def draw():
     global blobDetector, blob_factor
@@ -32,22 +33,28 @@ def draw():
             # stroke(255 * perlin)            
             point(x,y)
 
+    filter(BLUR, 6)
+    
     loadPixels()
-    
     blobDetector.computeBlobs(pixels)
-    # background(0)
     
+    background(0)
+    noFill()
+    stroke(255,0,0)         
     for i in range(blobDetector.getBlobNb()):
         blob = blobDetector.getBlob(i)
-        
-        stroke(255, 0, 0)
-        noFill()
+
         beginShape()
+        init = -1
         for i_vert in range(blob.getEdgeNb()):
-            vert = blob.getEdgeVertexA(i_vert)
-            x = vert.x * width
-            y = vert.y * height
-            curveVertex(x,y)
+            vertA = blob.getEdgeVertexA(i_vert)
+            vertB = blob.getEdgeVertexB(i_vert)
+            xA = vertA.x * width
+            yA = vertA.y * height
+            xB = vertB.x * width
+            yB = vertB.y * height
+            line(xA,yA, xB,yB)
+            
         endShape()
             
     
