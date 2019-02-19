@@ -12,12 +12,13 @@ def setup():
     
 def draw(): 
     global hiImg
+    background(0)
     for x in range(width):
         for y in range(height):
-            c = int(noise(x*noiseFactor,y*noiseFactor) * 255)
+            c = int(noise(x*noiseFactor,y*noiseFactor, frameCount*noiseFactor) * 255)
             col = color(c)
             set(x,y,col)
-    filter(BLUR, 20)
+    filter(BLUR, 7)
     
     for y in range(height):
         for x in range(width):
@@ -30,5 +31,5 @@ def draw():
             elif brightness(c) < loTreshold:
                 set(x,y,color(0,255,0))
             else:
-                set(x,y,color(255,0,0))
+                set(x,y,color(0,0,0))
             
