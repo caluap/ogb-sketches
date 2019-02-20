@@ -1,5 +1,5 @@
-noiseFactor = 0.01
-hiTreshold = .58*255
+noiseFactor = 0.05
+hiTreshold = .50*255
 loTreshold = .45*255
 
 saveImg = False
@@ -13,7 +13,7 @@ pg = None
 def setup():
     global hiImg, loImg, pg
     size(297, 410)
-    hiImg = loadImage("dots.png")
+    hiImg = loadImage("dots.jpg")
     loImg = loadImage("lines.png")
     
     pg = createGraphics(2475, 3417) # 300dpi
@@ -56,7 +56,7 @@ def draw():
                 c = pg.get(x,y)
             else:
                 c = get(x,y)
-            if brightness(c) >= hiTreshold:
+            if brightness(c) > hiTreshold:
                 cX = int(1.0 * x/w * hiImg.width)
                 cY = int(1.0 * y/h * hiImg.height)
                 imgC = hiImg.pixels[cX + cY * hiImg.width]
@@ -64,7 +64,7 @@ def draw():
                     pg.set(x,y,imgC)
                 else:
                     set(x,y,imgC)
-            elif brightness(c) < loTreshold:
+            elif brightness(c) <= loTreshold:
                 cX = int(1.0 * x/w * loImg.width)
                 cY = int(1.0 * y/h * loImg.height)
                 imgC = loImg.pixels[cX + cY * loImg.width]                
